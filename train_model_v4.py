@@ -10,8 +10,10 @@ print("Carregando base unificada...")
 df = pd.read_csv('dados_unificados.csv')
 
 # 2. Seleção de Features (X) e Target (y)
-features = ['IAA', 'IEG', 'IPS', 'IDA', 'IPP', 'IPV', 'IAN']
+features = ['IAA', 'IPS', 'IPP', 'IAN']
 target = 'Ponto_Virada'
+
+
 
 # Garante que só usa linhas onde temos dados numéricos
 X = df[features]
@@ -39,3 +41,17 @@ print(f"ROC-AUC Score: {roc:.4f}")
 joblib.dump(model, 'model_v4.pkl')
 joblib.dump(scaler, 'scaler_v3.pkl') # Mantendo nome v3 ou v4 conforme preferir
 print("Modelo e Scaler salvos com sucesso!")
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# 1. Matriz de correlação das features + target
+df_corr = df[features + [target]].corr()
+
+# 2. Plotar heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(df_corr, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title("Matriz de Correlação entre Features e Target")
+plt.show()
+
